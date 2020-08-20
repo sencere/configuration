@@ -1,5 +1,5 @@
 call plug#begin()
-Plug  'nanotech/jellybeans.vim' 
+Plug 'nanotech/jellybeans.vim' 
 Plug 'zxqfl/tabnine-vim'
 call plug#end()
 
