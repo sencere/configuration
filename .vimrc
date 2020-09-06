@@ -1,6 +1,12 @@
 call plug#begin()
 Plug 'nanotech/jellybeans.vim' 
 Plug 'zxqfl/tabnine-vim'
+Plug 'kien/ctrlp.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'yggdroot/indentline'
+Plug 'seagoj/indentline-config.vim'
+Plug 'tpope/vim-surround'
 call plug#end()
 
 syntax on
@@ -33,9 +39,9 @@ if &term =~ '256color'
     set t_ut=
 endif
 
-nmap ,ev :e $MYVIMRC<cr>
+nmap ,ev :e $MYVIMRC<cr> 
 
-let s:comment_map = {
+let s:comment_map = { 
     \   "c": '\/\/',
     \   "cpp": '\/\/',
     \   "go": '\/\/',
