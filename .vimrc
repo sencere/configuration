@@ -6,6 +6,7 @@ Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'andys8/vim-elm-syntax'
 call plug#end()
 
 syntax on
