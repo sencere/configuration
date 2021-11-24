@@ -12,6 +12,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'andys8/vim-elm-syntax'
 Plug 'joonty/vdebug'
+Plug 'yggdroot/indentline'
 call plug#end()
 
 syntax on
