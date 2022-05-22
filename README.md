@@ -1,3 +1,3 @@
 # README
 
-The goal of this repository is to keap my configuration as simple as possible
+The goal is to keep my configuration as simple and powerful as possible.
