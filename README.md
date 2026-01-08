@@ -1,3 +1,3 @@
-# README
+# simple configuration
 
-configuration
+tmux + vim + kitty

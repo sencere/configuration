@@ -4,7 +4,7 @@
 
 call plug#begin()
 Plug 'nanotech/jellybeans.vim'
-Plug 'zxqfl/tabnine-vim'
+" Plug 'zxqfl/tabnine-vim'
 Plug 'kien/ctrlp.vim'
 Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
@@ -13,6 +13,8 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'andys8/vim-elm-syntax'
 Plug 'joonty/vdebug'
 Plug 'yggdroot/indentline'
+Plug 'sbdchd/neoformat'
+Plug 'jbmorgado/vim-pine-script'
 call plug#end()
 
 syntax on
@@ -38,11 +40,13 @@ set softtabstop=4
 set expandtab
 set listchars=tab:>-,trail:-
 set list
-
 set rtp+=~/tabnine-vim
 
 hi Search ctermbg=red
 hi Search ctermfg=white
+hi MatchParen cterm=none ctermbg=green ctermfg=blue
+hi Normal guisp=NONE guifg=#e8e8cc guibg=#1c1c1c ctermfg=253 gui=NONE cterm=NONE
+
 
 if &term =~ '256color'
     set t_ut=
@@ -50,6 +54,9 @@ endif
 
 nmap ,ev :e $MYVIMRC<cr>
 map <F6> gg=G<C-o><C-o>
+
+
+let g:neoformat_try_node_exe = 1
 
 " -----------------------------------------------------------------------------
 "     - Execute Script Files via F5 -
@@ -59,7 +66,10 @@ autocmd BufNewFile,BufRead *.r nnoremap <F5> :!clear && Rscript %<RETURN>
 autocmd BufNewFile,BufRead *.py nnoremap <F5> :!clear && python3 %<RETURN>
 autocmd BufNewFile,BufRead *.sh nnoremap <F5> :!clear && sh %<RETURN>
 autocmd BufNewFile,BufRead *.js nnoremap <F5> :!clear && node %<RETURN>
+autocmd BufNewFile,BufRead *.vue nnoremap <F5> :!clear && node %<RETURN>
 autocmd BufNewFile,BufRead *.php nnoremap <F5> :!clear && php %<RETURN>
+autocmd BufWritePre *.js Neoformat
+autocmd BufWritePre *.vue Neoformat
 
 " -----------------------------------------------------------------------------
 "     - Toggle Comments -
@@ -89,32 +99,32 @@ nnoremap <C-C> :call ToggleComment()<cr>
 vnoremap <C-C> :call ToggleComment()<cr>
 
 let s:comment_map = {
-            \   "c": '\/\/',
-            \   "cpp": '\/\/',
-            \   "go": '\/\/',
-            \   "java": '\/\/',
-            \   "javascript": '\/\/',
-            \   "lua": '--',
-            \   "scala": '\/\/',
-            \   "php": '\/\/',
-            \   "python": '#',
-            \   "ruby": '#',
-            \   "rust": '\/\/',
-            \   "sh": '#',
-            \   "desktop": '#',
-            \   "fstab": '#',
-            \   "conf": '#',
-            \   "profile": '#',
-            \   "bashrc": '#',
-            \   "bash_profile": '#',
-            \   "mail": '>',
-            \   "eml": '>',
-            \   "bat": 'REM',
-            \   "ahk": ';',
-            \   "vim": '"',
-            \   "tex": '%',
-            \   "r": '#',
-            \}
+    \   "c": '\/\/',
+    \   "cpp": '\/\/',
+    \   "go": '\/\/',
+    \   "java": '\/\/',
+    \   "javascript": '\/\/',
+    \   "lua": '--',
+    \   "scala": '\/\/',
+    \   "php": '\/\/',
+    \   "python": '#',
+    \   "ruby": '#',
+    \   "rust": '\/\/',
+    \   "sh": '#',
+    \   "desktop": '#',
+    \   "fstab": '#',
+    \   "conf": '#',
+    \   "profile": '#',
+    \   "bashrc": '#',
+    \   "bash_profile": '#',
+    \   "mail": '>',
+    \   "eml": '>',
+    \   "bat": 'REM',
+    \   "ahk": ';',
+    \   "vim": '"',
+    \   "tex": '%',
+    \   "r": '#',
+    \}
 
 " -----------------------------------------------------------------------------
 "     - VDebug Configuration -
@@ -159,3 +169,37 @@ let g:vdebug_keymap = {
             \    "detach" : "<C-F12>",
             \    "eval_visual" : "<Leader>e",
             \}
+
+
+function! InsertPythonFirstLine()
+    " Save the current position
+    let l:pos = getpos(".")
+    " Insert "#!/usr/bin/python" at the current line
+    call append(l:pos[1] - 1, '#!/usr/bin/python')
+    " Restore the cursor position
+    call setpos('.', l:pos)
+endfunction
+
+command! Flpython call InsertPythonFirstLine()
+
+
+" Enable true colors
+if has('termguicolors')
+  set termguicolors
+endif
+
+" Load jellybeans theme
+colorscheme jellybeans
+
+" Keep the background transparent and make sure it sticks after theme loads
+autocmd VimEnter,ColorScheme * call s:MakeTransparent()
+
+function! s:MakeTransparent() abort
+  hi Normal guibg=NONE ctermbg=NONE
+  hi NormalNC guibg=NONE ctermbg=NONE
+  hi SignColumn guibg=NONE ctermbg=NONE
+  hi LineNr guibg=NONE ctermbg=NONE
+  hi NormalFloat guibg=NONE ctermbg=NONE
+endfunction
+
+
